@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>잭와규 — 업소용 육수 제조공장 직거래</title>
+<meta name="description" content="11년차 HACCP 육수 제조공장 잭와규. 순대국육수·국밥다데기·국밥용 가공육을 지금 쓰는 제품과 무료로 비교해보세요." />
+<style>
+  :root {
+    --ink: #221a14;
+    --ink-soft: #6a5d52;
+    --paper: #f7f2ea;
+    --paper-raised: #fffdf9;
+    --paper-sunk: #efe7da;
+    --line: rgba(34, 26, 20, 0.13);
+    --accent: #a8321f;
+    --accent-strong: #8a2414;
+    --accent-soft: rgba(168, 50, 31, 0.1);
+    --broth: #c98a2e;
+    --broth-soft: rgba(201, 138, 46, 0.16);
+    --ok: #2f7d55;
+    --danger: #b3261e;
+    --shadow: 0 28px 56px -32px rgba(34, 26, 20, 0.45);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f3ece2;
+      --ink-soft: #b3a698;
+      --paper: #17130f;
+      --paper-raised: #221c17;
+      --paper-sunk: #1d1813;
+      --line: rgba(243, 236, 226, 0.13);
+      --accent: #e8664c;
+      --accent-strong: #f07c63;
+      --accent-soft: rgba(232, 102, 76, 0.15);
+      --broth: #e2a64e;
+      --broth-soft: rgba(226, 166, 78, 0.16);
+      --ok: #5cc28d;
+      --danger: #ff7a70;
+      --shadow: 0 28px 56px -28px rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+      "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section { scroll-margin-top: 80px; }
+
+  .section-head { max-width: 640px; margin-bottom: 36px; }
+  .kicker {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  h2 {
+    font-size: clamp(1.6rem, 3.2vw, 2.25rem);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  .section-head p { color: var(--ink-soft); margin: 0; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 15px 24px;
+    border-radius: 12px;
+    border: 1.5px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-strong); }
+  .btn-primary:disabled { opacity: 0.6; cursor: default; }
+  .btn-ghost { border-color: var(--line); color: var(--ink); background: var(--paper-raised); }
+  .btn-ghost:hover { border-color: var(--ink-soft); }
+
+  /* ---------- nav ---------- */
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    gap: 16px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .brand .seal {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 0.85rem;
+    font-weight: 900;
+  }
+  .nav-links { display: flex; align-items: center; gap: 26px; font-size: 0.92rem; font-weight: 600; }
+  .nav-links a { text-decoration: none; color: var(--ink-soft); }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.btn-primary { color: #fff; }
+  .nav .btn { padding: 10px 16px; font-size: 0.9rem; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: center;
+    padding: 64px 0 80px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 7px 13px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+  }
+  h1 {
+    font-size: clamp(2rem, 4.3vw, 3.25rem);
+    line-height: 1.24;
+    letter-spacing: -0.03em;
+    font-weight: 900;
+    margin: 0 0 22px;
+    text-wrap: balance;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lede { font-size: 1.08rem; color: var(--ink-soft); margin: 0 0 32px; max-width: 52ch; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+  .trust { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+  .trust li {
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+  }
+  .trust li::before { content: "✓ "; color: var(--ok); }
+
+  .cost-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+  }
+  .cost-card .label { font-size: 0.85rem; font-weight: 700; color: var(--ink-soft); margin: 0 0 4px; }
+  .cost-card .product { font-size: 1.3rem; font-weight: 900; margin: 0 0 22px; letter-spacing: -0.02em; }
+  .bowl-figure {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 20px;
+    border-radius: 14px;
+    background: var(--broth-soft);
+    margin-bottom: 18px;
+  }
+  .bowl-figure .num {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .bowl-figure .unit { font-size: 1.1rem; font-weight: 800; }
+  .bowl-figure .cap { margin-left: auto; font-size: 0.82rem; color: var(--ink-soft); text-align: right; }
+  .spec { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; }
+  .spec div { padding: 12px 14px; border-radius: 12px; background: var(--paper-sunk); }
+  .spec dt { font-size: 0.78rem; color: var(--ink-soft); font-weight: 600; }
+  .spec dd { margin: 2px 0 0; font-weight: 800; }
+  .cost-card .fine { font-size: 0.76rem; color: var(--ink-soft); margin: 14px 0 0; }
+
+  /* ---------- problems ---------- */
+  .band { background: var(--paper-sunk); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .problems { padding: 72px 0; }
+  .problem-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .problem-list li {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 18px 18px 20px;
+    font-weight: 700;
+    position: relative;
+  }
+  .problem-list li::before {
+    content: "";
+    display: block;
+    width: 22px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+
+  /* ---------- products ---------- */
+  .products { padding: 88px 0 72px; }
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .product-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .product-card.main { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .product-card .tag {
+    align-self: flex-start;
+    font-size: 0.74rem;
+    font-weight: 800;
+    padding: 4px 9px;
+    border-radius: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .product-card .tag.muted { background: var(--paper-sunk); color: var(--ink-soft); }
+  .product-card h3 { font-size: 1.25rem; font-weight: 900; margin: 0 0 12px; letter-spacing: -0.02em; }
+  .product-card ul { margin: 0; padding-left: 18px; color: var(--ink-soft); font-size: 0.94rem; }
+  .product-card li + li { margin-top: 4px; }
+  .lineup {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  .lineup strong { color: var(--ink); margin-right: 4px; }
+  .lineup span {
+    padding: 6px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ---------- calculator ---------- */
+  .calc { padding: 72px 0; }
+  .calc-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    overflow: hidden;
+  }
+  .calc-inputs { padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  .calc-field label { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 10px; }
+  .calc-field output { font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 900; }
+  .calc-field input[type="range"] { width: 100%; accent-color: var(--accent); }
+  .calc-field .range-ends { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--ink-soft); }
+  .calc-result {
+    background: var(--accent);
+    color: #fff;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .calc-result .r-label { font-weight: 700; opacity: 0.85; margin: 0; }
+  .calc-result .r-num {
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    margin: 4px 0 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .calc-result .r-sub { margin: 0 0 24px; opacity: 0.9; font-variant-numeric: tabular-nums; }
+  .calc-result .btn { background: #fff; color: #8a2414; align-self: flex-start; }
+  .calc-result .fine { font-size: 0.78rem; opacity: 0.8; margin: 18px 0 0; }
+
+  /* ---------- process ---------- */
+  .process { padding: 72px 0; }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+  .steps li {
+    counter-increment: step;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 16px;
+    font-weight: 700;
+    font-size: 0.93rem;
+  }
+  .steps li::before {
+    content: counter(step);
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 0.82rem;
+    font-weight: 900;
+    margin-bottom: 12px;
+  }
+  .promise {
+    margin: 36px 0 0;
+    text-align: center;
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .promise em { font-style: normal; color: var(--accent); }
+
+  /* ---------- form ---------- */
+  .apply { padding: 80px 0 96px; }
+  .apply-inner {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .apply-aside { position: sticky; top: 96px; }
+  .apply-aside ul { padding-left: 18px; color: var(--ink-soft); margin: 18px 0 0; }
+  .apply-aside li + li { margin-top: 6px; }
+
+  .form-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+  .field.full { grid-column: 1 / -1; }
+  .field > label, .field legend { font-weight: 700; font-size: 0.92rem; padding: 0; }
+  .req { color: var(--accent); margin-left: 2px; }
+  .opt { color: var(--ink-soft); font-weight: 500; font-size: 0.82rem; margin-left: 4px; }
+  fieldset { border: none; margin: 0; padding: 0; min-width: 0; }
+  .field input[type="text"], .field input[type="tel"], .field textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.97rem;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .field textarea { resize: vertical; min-height: 88px; }
+  .field input:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .field .invalid { border-color: var(--danger); }
+
+  .choices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .choice input { position: absolute; opacity: 0; pointer-events: none; }
+  .choice span {
+    display: inline-block;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .choice input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 800; }
+  .choice input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .divider { grid-column: 1 / -1; border: none; border-top: 1px dashed var(--line); margin: 6px 0; }
+  .optional-title { grid-column: 1 / -1; font-size: 0.85rem; font-weight: 800; color: var(--ink-soft); margin: 0; }
+
+  .consent {
+    grid-column: 1 / -1;
+    background: var(--paper-sunk);
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .consent p { margin: 0 0 10px; }
+  .consent label { display: flex; gap: 8px; align-items: center; color: var(--ink); font-weight: 700; font-size: 0.92rem; cursor: pointer; }
+  .consent input { width: 18px; height: 18px; accent-color: var(--accent); }
+
+  .form-foot { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 10px; }
+  .form-foot .btn { width: 100%; }
+  .form-msg { font-size: 0.9rem; min-height: 1.4em; margin: 0; }
+  .form-msg.err { color: var(--danger); }
+  .form-msg.pending { color: var(--ink-soft); }
+
+  .done { text-align: center; padding: 28px 8px; }
+  .done .check {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--ok);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin: 0 auto 18px;
+  }
+  .done h3 { font-size: 1.4rem; font-weight: 900; margin: 0 0 8px; }
+  .done p { color: var(--ink-soft); margin: 0; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0 40px;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  footer strong { color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .hero, .apply-inner, .calc-box { grid-template-columns: 1fr; }
+    .hero { gap: 40px; padding: 40px 0 56px; }
+    .product-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .apply-aside { position: static; }
+    .nav-links a:not(.btn) { display: none; }
+  }
+
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; }
+    .hero-ctas .btn { flex: 1 1 100%; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-card, .calc-inputs, .calc-result, .cost-card { padding: 22px; }
+    .bowl-figure .num { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="seal">잭</span>잭와규</a>
+    <nav class="nav-links">
+      <a href="#products">제품</a>
+      <a href="#calc">원가 계산</a>
+      <a href="#process">샘플 절차</a>
+      <a class="btn btn-primary" href="#apply">무료 샘플 신청</a>
+    </nav>
+  </div>
+</div>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">11년차 HACCP 육수 제조공장 직거래</span>
+        <h1>순대국 한 그릇, 육수원가 <em>300원</em>만 줄여도 이익이 달라집니다</h1>
+        <p class="lede">
+          잭와규가 순대국 매장에 맞는 육수·다데기·가공육을 직접 제안합니다.
+          지금 쓰는 제품과 맛·원가를 매장에서 직접 비교해보세요.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#apply">무료 샘플 신청</a>
+          <a class="btn btn-ghost" href="#calc">우리 매장 원가 계산해보기</a>
+        </div>
+        <ul class="trust">
+          <li>HACCP 제조공장</li>
+          <li>사골육수 제조 11년차</li>
+          <li>업소용 육수·국밥 제품 전문</li>
+          <li>제조공장 직거래</li>
+        </ul>
+      </div>
+
+      <aside class="cost-card" aria-label="순대국육수 1인분 원가">
+        <p class="label">잭와규 대표 제품</p>
+        <p class="product">순대국육수</p>
+        <div class="bowl-figure">
+          <span class="num">297</span><span class="unit">원</span>
+          <span class="cap">1인분 육수 원가<br />(약, 완성육수 500g)</span>
+        </div>
+        <dl class="spec">
+          <div><dt>희석비</dt><dd>15 : 1</dd></div>
+          <div><dt>농도</dt><dd>매장별 조절 가능</dd></div>
+        </dl>
+        <p class="fine">※ 공급조건 기준 예시이며, 매장 농도와 투입량에 따라 달라집니다.</p>
+      </aside>
+    </section>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <section class="problems">
+        <div class="section-head">
+          <p class="kicker">사장님, 이런 고민 없으십니까?</p>
+          <h2>육수는 매일 끓이는데, 원가와 맛은 매일 다릅니다</h2>
+        </div>
+        <ul class="problem-list">
+          <li>육수 맛이 매일 조금씩 달라진다</li>
+          <li>직접 끓이느라 가스비와 인건비가 많이 든다</li>
+          <li>농축육수를 써봤지만 맛이 약하거나 잡내가 난다</li>
+          <li>원가는 계속 오르는데 메뉴 가격은 올리기 어렵다</li>
+          <li>육수·다데기·머리고기를 각각 따로 구입하고 있다</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="products" id="products">
+      <div class="section-head">
+        <p class="kicker">잭와규 제안</p>
+        <h2>순대국 매장에 필요한 제품을 한 번에 비교 테스트합니다</h2>
+        <p>육수부터 다데기, 가공육까지 매장 구성에 맞춰 함께 제안해드립니다.</p>
+      </div>
+      <div class="product-grid">
+        <article class="product-card main">
+          <span class="tag">대표 제품</span>
+          <h3>순대국육수</h3>
+          <ul>
+            <li>희석비 15:1 기준</li>
+            <li>1인분 육수 원가 약 297원</li>
+            <li>매장별 농도 조절 가능</li>
+          </ul>
+        </article>
+        <article class="product-card">
+          <span class="tag muted">함께 표준화</span>
+          <h3>국밥다데기</h3>
+          <ul>
+            <li>순한맛·매운맛 등 메뉴별 적용 검토</li>
+            <li>육수와 함께 맛 표준화 가능</li>
+          </ul>
+        </article>
+        <article class="product-card">
+          <span class="tag muted">매장 맞춤</span>
+          <h3>국밥용 가공육</h3>
+          <ul>
+            <li>머리고기·내장류·수육용 제품</li>
+            <li>매장 구성에 맞춰 제안</li>
+          </ul>
+        </article>
+      </div>
+      <div class="lineup">
+        <strong>다른 업종도 공급합니다</strong>
+        <span>한우사골육수</span>
+        <span>맑은곰탕육수</span>
+        <span>칼만두육수</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <section class="calc" id="calc">
+        <div class="section-head">
+          <p class="kicker">원가 계산</p>
+          <h2>육수원가가 한 그릇당 줄어든다면, 한 달에 얼마일까요?</h2>
+          <p>하루 판매량과 그릇당 차이를 움직여 우리 매장 기준으로 계산해보세요.</p>
+        </div>
+        <div class="calc-box">
+          <div class="calc-inputs">
+            <div class="calc-field">
+              <label for="c-bowls">하루 판매량 <output id="o-bowls" for="c-bowls">100그릇</output></label>
+              <input type="range" id="c-bowls" min="10" max="300" step="10" value="100" />
+              <div class="range-ends"><span>10그릇</span><span>300그릇</span></div>
+            </div>
+            <div class="calc-field">
+              <label for="c-save">그릇당 원가 차이 <output id="o-save" for="c-save">300원</output></label>
+              <input type="range" id="c-save" min="50" max="800" step="10" value="300" />
+              <div class="range-ends"><span>50원</span><span>800원</span></div>
+            </div>
+            <div class="calc-field">
+              <label for="c-days">월 영업일 <output id="o-days" for="c-days">30일</output></label>
+              <input type="range" id="c-days" min="20" max="31" step="1" value="30" />
+              <div class="range-ends"><span>20일</span><span>31일</span></div>
+            </div>
+          </div>
+          <div class="calc-result" aria-live="polite">
+            <p class="r-label">한 달 예상 차이</p>
+            <p class="r-num" id="r-month">약 90만원</p>
+            <p class="r-sub" id="r-year">1년이면 약 1,080만원</p>
+            <a class="btn" href="#apply">내 매장 원가 비교 신청</a>
+            <p class="fine">※ 실제 절감액은 현재 원가와 판매량에 따라 달라집니다.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="process" id="process">
+      <div class="section-head">
+        <p class="kicker">무료 샘플 테스트</p>
+        <h2>신청부터 비교 테스트까지, 방문 없이 진행됩니다</h2>
+      </div>
+      <ol class="steps">
+        <li>매장정보 입력</li>
+        <li>현재 메뉴와 사용제품 확인</li>
+        <li>잭와규가 적합 제품 선정</li>
+        <li>샘플 택배 발송</li>
+        <li>매장에서 기존 제품과 비교 테스트</li>
+        <li>필요 시 전화상담 및 공급조건 안내</li>
+      </ol>
+      <p class="promise">바꾸라고 권하지 않습니다. <em>먼저 비교해보십시오.</em></p>
+    </section>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <section class="apply" id="apply">
+        <div class="apply-inner">
+          <div class="apply-aside">
+            <p class="kicker">무료 샘플 신청</p>
+            <h2>현재 육수와 무료로 비교해보세요</h2>
+            <p style="color: var(--ink-soft); margin: 0;">
+              대표 메뉴, 하루 판매량, 현재 육수 방식을 확인한 뒤 적합한 테스트 제품을 안내해드립니다.
+            </p>
+            <ul>
+              <li>샘플·택배비 무료</li>
+              <li>기존 제품과 같은 조건으로 비교</li>
+              <li>구매 의무 없음</li>
+            </ul>
+          </div>
+
+          <div class="form-card">
+            <form id="apply-form" novalidate>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="f-store">상호명<span class="req">*</span></label>
+                  <input type="text" id="f-store" name="store_name" autocomplete="organization" required />
+                </div>
+                <div class="field">
+                  <label for="f-menu">대표 메뉴<span class="req">*</span></label>
+                  <input type="text" id="f-menu" name="main_menu" placeholder="예: 순대국, 국밥" required />
+                </div>
+                <div class="field full">
+                  <label for="f-address">지역 / 배송주소<span class="req">*</span></label>
+                  <input type="text" id="f-address" name="address" autocomplete="street-address" placeholder="샘플을 받으실 주소" required />
+                </div>
+                <div class="field">
+                  <label for="f-name">담당자명<span class="req">*</span></label>
+                  <input type="text" id="f-name" name="contact_name" autocomplete="name" required />
+                </div>
+                <div class="field">
+                  <label for="f-phone">연락처<span class="req">*</span></label>
+                  <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="010-1234-5678" required />
+                </div>
+
+                <fieldset class="field full" data-group="daily_volume">
+                  <legend>하루 평균 판매량<span class="req">*</span></legend>
+                  <div class="choices">
+                    <label class="choice"><input type="radio" name="daily_volume" value="30그릇 미만" /><span>30그릇 미만</span></label>
+                    <label class="choice"><input type="radio" name="daily_volume" value="30~60그릇" /><span>30~60그릇</span></label>
+                    <label class="choice"><input type="radio" name="daily_volume" value="60~100그릇" /><span>60~100그릇</span></label>
+                    <label class="choice"><input type="radio" name="daily_volume" value="100그릇 이상" /><span>100그릇 이상</span></label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="field full" data-group="broth_method">
+                  <legend>현재 육수 방식<span class="req">*</span></legend>
+                  <div class="choices">
+                    <label class="choice"><input type="radio" name="broth_method" value="직접 제조" /><span>직접 제조</span></label>
+                    <label class="choice"><input type="radio" name="broth_method" value="농축육수" /><span>농축육수</span></label>
+                    <label class="choice"><input type="radio" name="broth_method" value="본사 공급" /><span>본사 공급</span></label>
+                    <label class="choice"><input type="radio" name="broth_method" value="기타" /><span>기타</span></label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="field full" data-group="interests">
+                  <legend>관심제품<span class="req">*</span> <span class="opt">여러 개 선택 가능</span></legend>
+                  <div class="choices">
+                    <label class="choice"><input type="checkbox" name="interests" value="순대국육수" /><span>순대국육수</span></label>
+                    <label class="choice"><input type="checkbox" name="interests" value="국밥다데기" /><span>국밥다데기</span></label>
+                    <label class="choice"><input type="checkbox" name="interests" value="가공육" /><span>가공육</span></label>
+                    <label class="choice"><input type="checkbox" name="interests" value="전체" /><span>전체</span></label>
+                  </div>
+                </fieldset>
+
+                <hr class="divider" />
+                <p class="optional-title">선택 항목 — 적어주시면 더 정확하게 비교해드립니다</p>
+
+                <div class="field">
+                  <label for="f-cost">현재 1인분 육수 원가<span class="opt">선택</span></label>
+                  <input type="text" id="f-cost" name="current_cost" placeholder="예: 약 450원" />
+                </div>
+                <div class="field">
+                  <label for="f-supplier">현재 거래처 또는 제품명<span class="opt">선택</span></label>
+                  <input type="text" id="f-supplier" name="current_supplier" />
+                </div>
+                <div class="field full">
+                  <label for="f-question">궁금한 점<span class="opt">선택</span></label>
+                  <textarea id="f-question" name="question"></textarea>
+                </div>
+
+                <div class="consent">
+                  <p>
+                    수집 항목: 상호명, 대표 메뉴, 주소, 담당자명, 연락처, 매장 운영 정보 ·
+                    이용 목적: 샘플 발송 및 상담 안내 · 수집 목적 달성 후 지체 없이 파기합니다.
+                    동의하지 않으실 수 있으나, 이 경우 샘플 신청이 어렵습니다.
+                  </p>
+                  <label><input type="checkbox" id="f-consent" name="privacy_agreed" /> 개인정보 수집·이용에 동의합니다 (필수)</label>
+                </div>
+
+                <div class="form-foot">
+                  <button type="submit" class="btn btn-primary" id="submit-btn">무료 샘플 신청하기</button>
+                  <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
+                </div>
+              </div>
+            </form>
+
+            <div class="done" id="done" hidden>
+              <div class="check">✓</div>
+              <h3>샘플 신청이 접수되었습니다</h3>
+              <p>매장 메뉴와 사용량을 확인해 적합한 제품을 선정한 뒤 연락드리겠습니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <footer>
+      <span><strong>잭와규</strong> · HACCP 업소용 육수 제조공장</span>
+      <span>순대국육수 · 국밥다데기 · 국밥용 가공육 · 한우사골육수 · 맑은곰탕육수 · 칼만두육수</span>
+    </footer>
+  </div>
+</main>
+
+<script>
+  // ---------- 원가 계산기 ----------
+  const won = (n) => {
+    if (n >= 10000) {
+      const man = Math.round(n / 10000);
+      return "약 " + man.toLocaleString("ko-KR") + "만원";
+    }
+    return "약 " + Math.round(n).toLocaleString("ko-KR") + "원";
+  };
+
+  const bowls = document.getElementById("c-bowls");
+  const save = document.getElementById("c-save");
+  const days = document.getElementById("c-days");
+
+  function updateCalc() {
+    const b = Number(bowls.value), s = Number(save.value), d = Number(days.value);
+    document.getElementById("o-bowls").textContent = b + "그릇";
+    document.getElementById("o-save").textContent = s + "원";
+    document.getElementById("o-days").textContent = d + "일";
+    const month = b * s * d;
+    document.getElementById("r-month").textContent = won(month);
+    document.getElementById("r-year").textContent = "1년이면 " + won(month * 12);
+  }
+  [bowls, save, days].forEach((el) => el.addEventListener("input", updateCalc));
+  updateCalc();
+</script>
+
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+  import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "../config.js";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+  // 유입 추적: ?source=NAVER_BLOG&campaign=CAMP-001
+  const params = new URLSearchParams(location.search);
+  const source = (params.get("source") || "DIRECT").slice(0, 40);
+  const campaign = params.get("campaign") ? params.get("campaign").slice(0, 40) : null;
+
+  const form = document.getElementById("apply-form");
+  const submitBtn = document.getElementById("submit-btn");
+  const msg = document.getElementById("form-msg");
+
+  function setMsg(text, kind) {
+    msg.textContent = text;
+    msg.className = "form-msg" + (kind ? " " + kind : "");
+  }
+
+  const val = (name) => (form.elements[name].value || "").trim();
+  const picked = (name) =>
+    [...form.querySelectorAll(`input[name="${name}"]:checked`)].map((el) => el.value);
+
+  function fail(text, el) {
+    setMsg(text, "err");
+    if (el) {
+      el.classList.add("invalid");
+      (el.matches("input, textarea") ? el : el.querySelector("input"))?.focus();
+      el.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+  }
+
+  form.addEventListener("input", (e) => e.target.classList.remove("invalid"));
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const required = [
+      ["store_name", "상호명을"],
+      ["main_menu", "대표 메뉴를"],
+      ["address", "배송주소를"],
+      ["contact_name", "담당자명을"],
+      ["phone", "연락처를"],
+    ];
+    for (const [name, label] of required) {
+      if (!val(name)) return fail(`${label} 입력해주세요.`, form.elements[name]);
+    }
+
+    const digits = val("phone").replace(/\D/g, "");
+    if (digits.length < 9 || digits.length > 11) {
+      return fail("연락처를 다시 확인해주세요. (예: 010-1234-5678)", form.elements.phone);
+    }
+
+    const groups = [
+      ["daily_volume", "하루 평균 판매량을"],
+      ["broth_method", "현재 육수 방식을"],
+      ["interests", "관심제품을"],
+    ];
+    for (const [name, label] of groups) {
+      if (picked(name).length === 0) {
+        return fail(`${label} 선택해주세요.`, form.querySelector(`[data-group="${name}"]`));
+      }
+    }
+
+    if (!document.getElementById("f-consent").checked) {
+      return fail("개인정보 수집·이용에 동의해주세요.", document.getElementById("f-consent"));
+    }
+
+    submitBtn.disabled = true;
+    setMsg("신청 중이에요…", "pending");
+
+    const { error } = await supabase.from("sample_requests").insert({
+      store_name: val("store_name"),
+      main_menu: val("main_menu"),
+      address: val("address"),
+      contact_name: val("contact_name"),
+      phone: val("phone"),
+      daily_volume: picked("daily_volume")[0],
+      broth_method: picked("broth_method")[0],
+      interests: picked("interests"),
+      privacy_agreed: true,
+      current_cost: val("current_cost") || null,
+      current_supplier: val("current_supplier") || null,
+      question: val("question") || null,
+      source,
+      campaign,
+    });
+
+    submitBtn.disabled = false;
+
+    if (error) {
+      console.error(error);
+      return setMsg("신청에 실패했어요. 잠시 후 다시 시도해주세요.", "err");
+    }
+
+    form.hidden = true;
+    document.getElementById("done").hidden = false;
+    document.getElementById("apply").scrollIntoView({ block: "start", behavior: "smooth" });
+  });
+</script>
+
+</body>
+</html>
