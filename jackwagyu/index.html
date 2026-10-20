@@ -389,6 +389,19 @@
   .apply-aside { position: sticky; top: 96px; }
   .apply-aside ul { padding-left: 18px; color: var(--ink-soft); margin: 18px 0 0; }
   .apply-aside li + li { margin-top: 6px; }
+  .call {
+    display: inline-flex;
+    flex-direction: column;
+    margin-top: 24px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    text-decoration: none;
+  }
+  .call:hover { border-color: var(--accent); }
+  .call-label { font-size: 0.8rem; font-weight: 700; color: var(--ink-soft); }
+  .call-num { font-size: 1.35rem; font-weight: 900; letter-spacing: -0.01em; color: var(--accent); font-variant-numeric: tabular-nums; }
 
   .form-card {
     background: var(--paper-raised);
@@ -684,6 +697,10 @@
               <li>기존 제품과 같은 조건으로 비교</li>
               <li>구매 의무 없음</li>
             </ul>
+            <a class="call" href="tel:010-7304-4553">
+              <span class="call-label">바로 전화 상담</span>
+              <span class="call-num">010-7304-4553</span>
+            </a>
           </div>
 
           <div class="form-card">
@@ -785,7 +802,7 @@
 
   <div class="wrap">
     <footer>
-      <span><strong>잭와규</strong> · HACCP 업소용 육수 제조공장</span>
+      <span><strong>잭와규</strong> · HACCP 업소용 육수 제조공장 · 상담 <a href="tel:010-7304-4553">010-7304-4553</a></span>
       <span>순대국육수 · 국밥다데기 · 국밥용 가공육 · 한우사골육수 · 맑은곰탕육수 · 칼만두육수</span>
     </footer>
   </div>
