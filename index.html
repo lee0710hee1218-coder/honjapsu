@@ -46,6 +46,8 @@
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
       "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
     line-height: 1.55;
+    word-break: keep-all;
+    overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -414,7 +416,7 @@
       <div class="phone">
         <div class="phone-head">
           <span class="date">7월 19일 일요일</span>
-          <span class="count">4개 남음</span>
+          <span class="count">3개 남음</span>
         </div>
         <div class="conflict"><span class="flag"></span>14:00 일정 2건이 겹쳐요</div>
         <div class="task">
@@ -505,7 +507,17 @@
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = emailInput.value.trim();
-    if (!email) return;
+    emailInput.value = email;
+    if (!email) {
+      setMsg("이메일을 입력해주세요.", "err");
+      emailInput.focus();
+      return;
+    }
+    if (!emailInput.checkValidity() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setMsg("올바른 이메일 형식이 아니에요. 다시 확인해주세요.", "err");
+      emailInput.focus();
+      return;
+    }
 
     submitBtn.disabled = true;
     setMsg("신청 중이에요…", "pending");
